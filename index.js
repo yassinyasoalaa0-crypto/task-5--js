@@ -30,9 +30,15 @@ const projects = [
     image: "./imgs/portfolio-6.webp",
   },
 ];
+const layrpopup = document.querySelector(".layer-popuo")
 const prodactContenar = document.querySelector(".brodact")
-console.log(prodactContenar)
-projects.forEach((product) => prodactContenar.innerHTML += `<div class="card overflow-hidden relative border-[#fff] duration-300 hover:shadow-xl">
+const ExitLayerPopup = document.querySelector(".exit-layer")
+const galareImgs = document.querySelector(".imgs-popup img")
+const nextPopup = document.querySelector(".next-layer")
+const prevPopup = document.querySelector(".prev-layer")
+let carentDefoltOPen = 0
+projects.forEach((product) => prodactContenar.innerHTML += `
+<div class="card overflow-hidden relative border-[#fff] duration-300 hover:shadow-xl" onclick = "openLeyrPopup(${product.id})">
         <div class="imgs ">
           <img src="${product.image}" alt="" class=" ">
           <div class="layer flex items-center justify-center gap-4">
@@ -62,4 +68,34 @@ projects.forEach((product) => prodactContenar.innerHTML += `<div class="card ove
     <span>Featured</span>
   </div>
   ` : ""}
-      </div > ` )
+      </div > 
+    ` )
+function openLeyrPopup(projectsid) {
+  layrpopup.classList.remove("opacity-0", "pointer-events-none")
+  const LayerConten = projects.find(projects => projects.id === projectsid)
+  const carentINdex = projects.findIndex(projects => projects.id === projectsid)
+  galareImgs.src = LayerConten.image
+  carentDefoltOPen = carentINdex
+}
+function exitLeyrPopup() {
+  layrpopup.classList.add("opacity-0", "pointer-events-none")
+}
+function nextLeyarPopup() {
+  if (carentDefoltOPen >= projects.length - 1) {
+    carentDefoltOPen = 0;
+    galareImgs.src = projects[carentDefoltOPen].image
+    return;
+  }
+  carentDefoltOPen++
+  galareImgs.src = projects[carentDefoltOPen].image
+}
+function prevLeyarPopup() {
+  if (carentDefoltOPen === 0) {
+    carentDefoltOPen = projects.length - 1
+  }
+  else {
+    carentDefoltOPen--
+  }
+  galareImgs.src = projects[carentDefoltOPen].image
+
+}
